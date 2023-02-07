@@ -2,26 +2,33 @@ package main
 
 import "fmt"
 
+func normalFuncion(message string) {
+	fmt.Println(message)
+}
+
+func tripleArgument(a, b int, c string) {
+	fmt.Println(a, b, c)
+}
+
+func returnValue(a int) int {
+	return a * 2
+}
+
+func doubleReturn(a int) (c, d int) {
+	return a, a * 2
+}
+
 func main() {
-	//Declaracion de variables
-	helloMessage := "Hello"
-	worldMessage := "world"
+	normalFuncion("HOLA MUNDO")
+	tripleArgument(1, 2, "Emiliano")
 
-	//Println
-	fmt.Println(helloMessage, worldMessage)
-	fmt.Println(helloMessage, worldMessage)
+	value := returnValue(2)
+	fmt.Println("Value: ", value)
 
-	//Printf
-	nombre := "Platzi"
-	cursos := 500
-	fmt.Printf("%s tiene mas de %d cursos\n", nombre, cursos)
-	fmt.Printf("%v tiene mas de %v cursos\n", nombre, cursos)
+	value1, value2 := doubleReturn(2)
+	fmt.Println("Valores: ", value1, value2)
 
-	//Sprintf
-	message := fmt.Sprintf("%v tiene mas de %v cursos\n", nombre, cursos)
-	fmt.Print(message)
-
-	//Tipos de datos
-	fmt.Printf("hellomessage: %T\n", helloMessage)
-	fmt.Printf("cursos: %T\n", cursos)
+	//Para utilizar solamente uno de los dos valores retomados
+	value1, _ = doubleReturn(2)
+	fmt.Println("Valor: ", value1)
 }
