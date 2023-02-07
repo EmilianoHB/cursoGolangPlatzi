@@ -3,33 +3,25 @@ package main
 import "fmt"
 
 func main() {
-	/*
-		Numeros enteros
-		int = Depende del OS (32 o 64 bits)
-		int8 = 8bits = -128 a 127
-		int16 = 16 bits
-		int32 = 32 bits
-		int64 = 64 bits
+	//Declaracion de variables
+	helloMessage := "Hello"
+	worldMessage := "world"
 
-		Numeros enteros positivos
-		unit = Depende del OS (32 o 64 bits)
-		unit8 = 8bits
-		unit16 = 16 bits
-		unit32 = 32 bits
-		unit64 = 64 bits
+	//Println
+	fmt.Println(helloMessage, worldMessage)
+	fmt.Println(helloMessage, worldMessage)
 
-		Numeros decimales
-		float32 = 32 bits
-		float64 = 64 bits
+	//Printf
+	nombre := "Platzi"
+	cursos := 500
+	fmt.Printf("%s tiene mas de %d cursos\n", nombre, cursos)
+	fmt.Printf("%v tiene mas de %v cursos\n", nombre, cursos)
 
-		Textos y booleanos
-		string = ""
-		bool = true o false
+	//Sprintf
+	message := fmt.Sprintf("%v tiene mas de %v cursos\n", nombre, cursos)
+	fmt.Print(message)
 
-		Numeros complejos
-		Complex64 = Real e imaginario float32
-		Complex128 = Real o imaginario float64
-		Ejemplo: c := 10 +8i
-	*/
-	fmt.Println("Tipos de datos primitivos")
+	//Tipos de datos
+	fmt.Printf("hellomessage: %T\n", helloMessage)
+	fmt.Printf("cursos: %T\n", cursos)
 }
