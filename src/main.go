@@ -1,40 +1,24 @@
 package main
 
-import (
-	"fmt"
-	"strings"
-)
+import "fmt"
 
-func isPalidnromo(text string) {
-	var textReverse string
-	text = strings.ToLower(text)
-	for i := len(text) - 1; i >= 0; i-- {
-		textReverse += string(text[i])
-	}
-	if text == textReverse {
-		fmt.Println("Es un palindromo")
-	} else {
-		fmt.Println("No es un palindromo")
-	}
-}
 func main() {
-	slice := []string{"Hola", "que", "haces?"}
+	m := make(map[string]int)
 
-	for i, valor := range slice {
-		fmt.Println(i, valor)
-	}
-	//----------------------------------------------
-	for _, valor := range slice {
-		fmt.Println(valor)
-	}
-	//----------------------------------------------
-	for i := range slice {
-		fmt.Println(i)
+	m["Emiliano"] = 25
+	m["Pepe"] = 35
+	m["Claudia"] = 23
+
+	fmt.Println(m)
+
+	//Recorrer map
+	for i, v := range m {
+		fmt.Println(i, v)
 	}
 
-	/*
-		Ejercicio, realizar una funcion en la que podamos identificar si una palabra
-		o frase es un palindromo. Ej: Ama o Amor a Roma.
-	*/
-	isPalidnromo("Amor a Roma")
+	//Encontrar un valor dentro del map
+	valor, ok := m["Jose"]
+	fmt.Println(valor, ok)
+	valor, ok = m["Emiliano"]
+	fmt.Println(valor, ok)
 }
