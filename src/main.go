@@ -22,6 +22,7 @@ func main() {
 	}
 	fmt.Println(miPc)
 
+	//Funcion random
 	miPc.Ping()
 
 	//Una forma de utilizar la ram usando punteros
