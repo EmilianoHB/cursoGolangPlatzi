@@ -2,23 +2,31 @@ package main
 
 import "fmt"
 
+type auto struct {
+	marca    string
+	modelo   int
+	color    string
+	puertas  int
+	asientos int
+}
+
 func main() {
-	m := make(map[string]int)
-
-	m["Emiliano"] = 25
-	m["Pepe"] = 35
-	m["Claudia"] = 23
-
-	fmt.Println(m)
-
-	//Recorrer map
-	for i, v := range m {
-		fmt.Println(i, v)
+	miAuto := auto{
+		marca:    "Chevrolet",
+		modelo:   2019,
+		color:    "Negro",
+		puertas:  5,
+		asientos: 5,
 	}
+	fmt.Println(miAuto)
 
-	//Encontrar un valor dentro del map
-	valor, ok := m["Jose"]
-	fmt.Println(valor, ok)
-	valor, ok = m["Emiliano"]
-	fmt.Println(valor, ok)
+	//Otra forma
+	var otroAuto auto
+	otroAuto.marca = "Ford"
+	otroAuto.modelo = 2012
+	otroAuto.color = "Rojo"
+	otroAuto.puertas = 3
+	otroAuto.asientos = 2
+
+	fmt.Println(otroAuto)
 }
