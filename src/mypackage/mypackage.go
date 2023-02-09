@@ -2,23 +2,40 @@ package mypackage
 
 import "fmt"
 
-// Pc es un strunc de una pc
-type Pc struct {
-	Ram   int
-	Disco int
-	Marca string
+// Creamos un struct de cuadrado
+type Cuadrado struct {
+	Base float64
 }
 
-func (miPc Pc) Ping() {
-	fmt.Println(miPc.Marca, "Pong")
+// Creamos una funcion del caluclo del area del cuadrado
+func (c Cuadrado) Area() float64 {
+	return c.Base * c.Base
 }
 
-// Funcion para modificar atributos utilizando el puntero
-func (miPc *Pc) DuplicarRam() {
-	miPc.Ram += miPc.Ram
+// Creamos un struct de rectangulo
+type Rectangulo struct {
+	Base   float64
+	Altura float64
 }
 
-// Personalizacion de textos con Sprintf
-func (miPc Pc) String() string {
-	return fmt.Sprintf("Tengo una computadora de marca %s, que tiene %d de memoria RAM y un disco de %d GB", miPc.Marca, miPc.Ram, miPc.Disco)
+// Creamos la funcion del calculo del cuadrado
+func (r Rectangulo) Area() float64 {
+	return r.Base * r.Altura
+}
+
+/*
+Creamos un interface
+Lo que hace unicamente es tomar la funcion que comparten los dos
+Struct
+*/
+type Figuras2D interface {
+	Area() float64
+}
+
+/*
+Funcion calcular lo que hace es tomar como entrada la interfaz
+que creamos antes y hacemos que ejecute la funcion de area
+*/
+func Calcular(f Figuras2D) {
+	fmt.Println("Area: ", f.Area())
 }
