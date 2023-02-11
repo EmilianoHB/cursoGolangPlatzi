@@ -3,46 +3,29 @@ package main
 import (
 	pk "cursoGolangPlatzi/src/mypackage"
 	"fmt"
-	"sync"
-	"time"
 )
 
 func main() {
-	/* El paquete sync permite interacturar de forma primitiva
-	con las gorutine. Variable que acomula un conjunto de gorutines
-	y los va liberando poco a poco */
-	var wg sync.WaitGroup
+	/*Para crear un channel, creamos el nombre de una variable. Utilizaremos
+	la funcion make() (que solamente se utiliza para slice, map y channels),
+	indicando que vamos a crear un chan, al escribirlo tenemos que indicar
+	el tipo de dato que va a pasar por ese canal. El siguiente paso es opcional,
+	pero a nivel de optimizacion es una buena practica, en el cual despues
+	de una coma, vamos a indicarle cuantos datos simultaneos va a manejar ese
+	canal, sin embargo, si no agregamos ese dato, el canal va a tomar un valor
+	dinamico en todo momento*/
+	c := make(chan string, 1)
 
+	//Para funciones practicas creamos un hello
 	fmt.Println("Hello")
 
-	/* Indicamos que vamos a agregar 1 Gorutine al WaitGroup
-	para que espere su ejecucion antes de que la gurutine
-	base (main) muera, y así le de tiempo a la siguiente
-	gorutine de ejecutarse */
-	wg.Add(1)
+	/*Invocamos la funcion con una goroutin. Especificamos el texto y le
+	agregamos el canal*/
+	go pk.Say("Bye", c)
 
-	/* La palabra reservada go ejecutara la funcion de forma
-	concurrente */
-	go pk.Say("world", &wg)
-
-	/* Funcion del WaitGroup que sirve para decirle
-	al gorutine principal (main) que espere hasta que
-	todas las gorutine del WaitGroup finalicen,
-	es decir, hasta que se ejecute 'defer wg.Done()'
-	en cada una de las goroutines*/
-	wg.Wait()
-
-	//Funcion anonima
-	func(text string) {
-		fmt.Println(text)
-	}("Adios")
-
-	/* ! Funcion para que cuando llegue a esta linea
-	espere el tiempo indicado (lo suficiente para que
-	la Gorutine ejecute su funcion de forma concurrente) */
-	time.Sleep(time.Second * 1)
-
-	/* Nota: Para fines practicos se hace uso
-	de la funcion Sleep(), pero en realidad NO es una
-	buena practica, es mejor utilizar los WaitGroups */
+	/*Para asegurarnos que la goroutin del main espere a la ejecucion de
+	esta funcion antes de terminar, lo hacemos extrayendo el dato que agregamos
+	en el canal anteriormente con un PL
+		<-c simbolo de salida del dato del canal*/
+	fmt.Println(<-c)
 }
