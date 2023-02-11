@@ -6,26 +6,61 @@ import (
 )
 
 func main() {
-	/*Para crear un channel, creamos el nombre de una variable. Utilizaremos
-	la funcion make() (que solamente se utiliza para slice, map y channels),
-	indicando que vamos a crear un chan, al escribirlo tenemos que indicar
-	el tipo de dato que va a pasar por ese canal. El siguiente paso es opcional,
-	pero a nivel de optimizacion es una buena practica, en el cual despues
-	de una coma, vamos a indicarle cuantos datos simultaneos va a manejar ese
-	canal, sin embargo, si no agregamos ese dato, el canal va a tomar un valor
-	dinamico en todo momento*/
-	c := make(chan string, 1)
+	/*Creamos nuestro primer canal, vamos a manejar dos datos a la vez*/
+	c := make(chan string, 2)
+	/*Insertamos dos mensajes*/
+	c <- "mensaje1"
+	c <- "mensaje2"
 
-	//Para funciones practicas creamos un hello
-	fmt.Println("Hello")
+	/*Nos introducirmos en conceptos utiles al manejar los channels
+	len()(Esta funcion nos dice la cantidad de datos tenemos dentro del channel)
+	y cap()( Nos indica la cantidad maxima de datos que puede almacenar
+	ese channel)*/
+	fmt.Println(len(c), cap(c))
 
-	/*Invocamos la funcion con una goroutin. Especificamos el texto y le
-	agregamos el canal*/
-	go pk.Say("Bye", c)
+	/*Close
+	La funcion close() indica al runtime de go que va a cerrar el canal, indicando
+	que ese canal no va a recibir ningun dato adicional, a pesar de que tenga o no
+	mas capacidad. Lo ideal es cerrar los canales una vez sabes que no va a
+	recibir mas datos, no solo es una buena practica sino que tambien
+	mejora la eficiencia del codigo a nivel del runtime de go*/
+	close(c)
 
-	/*Para asegurarnos que la goroutin del main espere a la ejecucion de
-	esta funcion antes de terminar, lo hacemos extrayendo el dato que agregamos
-	en el canal anteriormente con un PL
-		<-c simbolo de salida del dato del canal*/
-	fmt.Println(<-c)
+	/*Range
+	Nos ayuda a hacer un recorrido de todos los mensajes que estan en este channel
+	por ejemplo. Es ideal cuando queremos iterar en cada uno de los elementos de
+	un canal que usualmente puede estar abierto o incluso manejar datos que en
+	algun punto pueden ser desconocidos*/
+	for mensaje := range c {
+		fmt.Println(mensaje)
+	}
+
+	/*Cuando empezamos a manejar multiples canales y no tenemos la certeza
+	de cual va a responder primero es cuando empezamos a utilizar select.
+	Para ejemplificar vamos a crear dos canales que van a recibir emails
+
+	Select
+
+	No le indicaremos la capacidad maxima, sino que los dejaremos de
+	forma dinamica*/
+	email1 := make((chan string))
+	email2 := make((chan string))
+
+	/*Invocaremos la funcion Mensaje con una goroutine de manera independiente.*/
+	go pk.Mensaje("Mensaje 1", email1)
+	go pk.Mensaje("Mensaje 2", email2)
+
+	/*En eset punto no tenemos a ciencia cierta cual de los dos canales va a
+	responder primero y ahi es donde empezamos a utlilizar select. Para eso
+	es importante que tengas precente la cantidad de datos que vas a manejar
+	en cada uno de los channels, icluso la cantidad de channels que vas a
+	tener por que los vamos a manejar a travez de un for*/
+	for i := 0; i < 2; i++ {
+		select {
+		case m1 := <-email1:
+			fmt.Println("Email recibido de email1", m1)
+		case m2 := <-email2:
+			fmt.Println("Email recibido de email2", m2)
+		}
+	}
 }
